@@ -51,7 +51,6 @@ $(document).ready(function() {
 
 	function updateMessagesAfterDeletion(response) {
 		var id = response.id;
-		debugger;
 		$('.'+id+'').parent().remove();
 	}
 
