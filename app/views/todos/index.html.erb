@@ -5,6 +5,15 @@
 
 <div id="messages-display" style="margin: 30px 0 30px 20px;">
   <ul id="messages-list">
+    <% @todos.each do |todo| %>
+      <li>
+        <%= todo.message %>
+        <div style="display:none;" class="id <%= todo.id %>"><%= todo.id %></div>
+        <span class="remove-message" style="font-weight:bold; color:red; cursor:pointer;">
+          (X)
+        </span>
+      </li>
+    <% end %>
   </ul>
   <button style="margin-top:15px;" id="remove-all">Remove all messages</button>
 </div>
