@@ -3,18 +3,42 @@ $(document).ready(function() {
 
 	showOrHideRemoveAllButton();
 
+	showOrHideRemoveCompletedButton();
+
 	$("#todos-list").on("click", ".remove-todo", removeTodo);
 
 	$("#remove-all").on("click", removeAllTodos);
 
 	$('#todo-submit').on('click', submitTodo);
 
-	$('#todos-list').on('click', '.checkmark', markTodoComplete)
+	$('#todos-list').on('click', '.checkmark', markTodoComplete);
 
 	$('#todo-input').on('keyup', function() {
 		if (event.keyCode !== 13) { return ; }
 		submitTodo();
 	});
+
+	$('#complete-all').on('click', completeAllCurrentlyDisplayedTodos);
+
+	function completeAllCurrentlyDisplayedTodos(el) {
+		el.preventDefault();
+		$.ajax({
+			type: 'GET',
+			url: '/hide_completed',
+			success: updateTodosAfterHideCompleted,
+			error: raiseError
+		});
+	}
+
+	function showOrHideRemoveCompletedButton() {
+		var completeAll = $('#complete-all');
+		debugger;
+		if ($('.completed-todo-item').length > 0) {
+			completeAll.show();
+		} else {
+			completeAll.hide();
+		}
+	}
 
 	function showOrHideRemoveAllButton() {
 		var removeAll = $('#remove-all');
@@ -82,8 +106,9 @@ $(document).ready(function() {
 		var todo = response.todo
 		var completedList = $('#completed-todos-list');
 		updateTodosAfterDeletion(response);
-		completedList.append('<div style="margin-left:30px;">' + todo +'</div>');
+		completedList.append('<div class="completed-todo-item" style="margin-left:30px;">' + todo +'</div>');
 		showOrHideRemoveAllButton();
+		showOrHideRemoveCompletedButton();
 	}
 
 	function updateTodosAfterDeleteAll() {
@@ -95,6 +120,11 @@ $(document).ready(function() {
 		var id = response.id;
 		$('.'+id+'').parent().remove();
 		showOrHideRemoveAllButton();
+	}
+
+	function updateTodosAfterHideCompleted() {
+		$('.completed-todo-item').remove();
+		showOrHideRemoveCompletedButton();
 	}
 
 	function updateTodosListWithNewTodo(response) {

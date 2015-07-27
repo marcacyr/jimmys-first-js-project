@@ -7,7 +7,7 @@ class TodosController < ApplicationController
   # GET /todos.json
   def index
     @todos = Todo.where(complete: false)
-    @completed_todos = Todo.where(complete: true)
+    @completed_todos = Todo.where(complete: true).where(display: true)
   end
 
 
@@ -42,12 +42,22 @@ class TodosController < ApplicationController
   def mark_complete
     @todo = Todo.find(params[:id])
     @todo.update_attributes(complete: true)
+    @todo.update_attributes(display: true)
 
     if @todo.save
       render json: @todo, status: 200
     else
       render json: @todo.errors, status: :unprocessable_entity
     end
+  end
+
+  def hide_completed
+    @todos = Todo.where(complete: true).where(display: true)
+    @todos.each do |todo|
+      todo.update_attributes(display: false)
+      todo.save
+    end
+    head 200
   end
 
   private

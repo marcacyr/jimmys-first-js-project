@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150727002810) do
+ActiveRecord::Schema.define(version: 20150727035502) do
 
   create_table "pages", force: :cascade do |t|
     t.string   "home"
@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(version: 20150727002810) do
     t.datetime "updated_at",                 null: false
     t.string   "todo"
     t.boolean  "complete",   default: false
+    t.boolean  "display",    default: true
   end
 
   create_table "welcomes", force: :cascade do |t|

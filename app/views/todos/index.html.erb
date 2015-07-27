@@ -1,33 +1,38 @@
-<h1 style="margin: 30px 0 0 20px;">TODO List App</h1>
-<div class="todo-input" style="margin: 20px 0 30px 20px;">
-  <input style="width: 300px;" id="todo-input" placeholder="Please type a todo here..."></input>
-  <button id="todo-submit">Submit</button>
-<div>
+<div class="everything">
+  <h1 style="margin: 30px 0 0 20px;">TODO List App</h1>
+  <div class="todo-input" style="margin: 20px 0 30px 20px;">
+    <input style="width: 300px;" id="todo-input" placeholder="Please type a todo here..."></input>
+    <button class="btn btn-primary" id="todo-submit">Submit</button>
+  <div>
 
-<div id="todos-display" style="margin: 30px 0 30px 20px;">
-  <h3>To Do:</h3>
-  <ul id="todos-list">
-    <% @todos.each do |todo| %>
-      <li class="todo-item">
-        <%= todo.todo %>
-        <div style="display:none;" class="incomplete id <%= todo.id %>"><%= todo.id %></div>
-        <span class="remove-todo">
-          x
-        </span>
-        <span class="checkmark"></span>
-      </li>
-    <% end %>
-  </ul>
-  <button style="margin-top:15px;" id="remove-all">Remove all todos</button>
-</div>
+  <div class="everything-else">
+    <div id="todos-display" style="margin: 30px 0 30px 20px;">
+      <h3>To Do:</h3>
+      <ul id="todos-list">
+        <% @todos.each do |todo| %>
+          <li class="todo-item">
+            <%= todo.todo %>
+            <div style="display:none;" class="incomplete id <%= todo.id %>"><%= todo.id %></div>
+            <span class="remove-todo">
+              x
+            </span>
+            <span class="checkmark"></span>
+          </li>
+        <% end %>
+      </ul>
+      <button class="btn btn-danger" style="margin-top:15px;" id="remove-all">Remove all todos</button>
+    </div>
 
-<div id="completed-todos" style="margin: 30px 0 30px 20px;">
-  <h3>Completed:</h3>
-  <div id="completed-todos-list">
-    <% @completed_todos.each do |completed_todo| %>
-      <div style="margin-left: 30px;">
-        <%= completed_todo.todo %>
+    <div id="completed-todos" style="margin: 30px 0 30px 20px;">
+      <h3>Completed:</h3>
+      <div id="completed-todos-list">
+        <% @completed_todos.each do |completed_todo| %>
+          <div class="completed-todo-item" style="margin-left: 30px;">
+            <%= completed_todo.todo %>
+          </div>
+        <% end %>
       </div>
-    <% end %>
+      <button class="btn btn-success" style="margin-top:15px;" id="complete-all">Remove completed</button>
+    </div>
   </div>
 </div>
