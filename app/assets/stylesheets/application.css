@@ -18,6 +18,10 @@
   text-align: center;
 }*/
 
+#todos-list {
+  cursor: pointer;
+}
+
 .checkmark {
   display: inline-block;
 }

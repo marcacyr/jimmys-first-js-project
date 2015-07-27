@@ -1,4 +1,6 @@
 $(document).ready(function() {
+	$('#todos-list').sortable();
+
 	showOrHideRemoveAllButton();
 
 	$("#todos-list").on("click", ".remove-todo", removeTodo);
