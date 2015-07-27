@@ -1,4 +1,6 @@
 $(document).ready(function() {
+	showOrHideRemoveAllButton();
+
 	$("#todos-list").on("click", ".remove-todo", removeTodo);
 
 	$("#remove-all").on("click", removeAllTodos);
@@ -11,6 +13,15 @@ $(document).ready(function() {
 		if (event.keyCode !== 13) { return ; }
 		submitTodo();
 	});
+
+	function showOrHideRemoveAllButton() {
+		var removeAll = $('#remove-all');
+		if ($('li').length > 0) {
+			removeAll.show();
+		} else {
+			removeAll.hide();
+		}
+	}
 
 	function getId(el) {
 		return el.parent().find('.id').text();
@@ -29,7 +40,8 @@ $(document).ready(function() {
 		});
 	}
 
-	function removeAllTodos() {
+	function removeAllTodos(el) {
+		el.preventDefault();
 		$.ajax({
 			type: 'GET',
 			url: '/remove_all_todos',
@@ -69,15 +81,18 @@ $(document).ready(function() {
 		var completedList = $('#completed-todos-list');
 		updateTodosAfterDeletion(response);
 		completedList.append('<div style="margin-left:30px;">' + todo +'</div>');
+		showOrHideRemoveAllButton();
 	}
 
 	function updateTodosAfterDeleteAll() {
 		$('li').remove();
+		showOrHideRemoveAllButton();
 	}
 
 	function updateTodosAfterDeletion(response) {
 		var id = response.id;
 		$('.'+id+'').parent().remove();
+		showOrHideRemoveAllButton();
 	}
 
 	function updateTodosListWithNewTodo(response) {
@@ -90,6 +105,7 @@ $(document).ready(function() {
 			+ "<span class='remove-todo' style='font-weight: bold; color: red; cursor: pointer;'> x </span>"
 			+ "<span class='checkmark'></span></li>");
 		todoInput.val("");
+		showOrHideRemoveAllButton();
 	}
 
 	function raiseError() {
