@@ -102,7 +102,7 @@ $(document).ready(function() {
 		var todo = response.todo;
 		var id = response.id;
 		var todoList = $("#todos-list");
-		todoList.append("<li>" + todo + '<div class="id '+ id +'" style="display:none">'
+		todoList.append("<li class='todo-item'>" + todo + '<div class="id '+ id +'" style="display:none">'
 			+ id + '</div>'
 			+ "<span class='remove-todo' style='font-weight: bold; color: red; cursor: pointer;'> x </span>"
 			+ "<span class='checkmark'></span></li>");

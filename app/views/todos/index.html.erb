@@ -8,10 +8,10 @@
   <h3>To Do:</h3>
   <ul id="todos-list">
     <% @todos.each do |todo| %>
-      <li>
+      <li class="todo-item">
         <%= todo.todo %>
         <div style="display:none;" class="incomplete id <%= todo.id %>"><%= todo.id %></div>
-        <span class="remove-todo" style="font-weight:bold; color:red; cursor:pointer;">
+        <span class="remove-todo">
           x
         </span>
         <span class="checkmark"></span>

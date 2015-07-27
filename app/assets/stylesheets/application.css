@@ -22,6 +22,16 @@
   cursor: pointer;
 }
 
+.todo-item {
+  font-size: 18px;
+}
+
+.remove-todo {
+  font-weight: bold;
+  color: red;
+  cursor: pointer;
+}
+
 .checkmark {
   display: inline-block;
 }
@@ -35,7 +45,7 @@
   height: 10px;
   /*Add a white border on the bottom and left, creating that 'L' */
   border: solid green;
-  border-width: 0 2px 2px 0;
+  border-width: 0 4px 4px 0;
   /*Rotate the L 45 degrees to turn it into a checkmark*/
   transform: rotate(45deg);
   margin-left: 5px;
