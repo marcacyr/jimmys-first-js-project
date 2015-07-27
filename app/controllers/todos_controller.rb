@@ -6,23 +6,10 @@ class TodosController < ApplicationController
   # GET /todos
   # GET /todos.json
   def index
-    @todos = Todo.all
+    @todos = Todo.where(complete: false)
+    @completed_todos = Todo.where(complete: true)
   end
 
-  # GET /todos/1
-  # GET /todos/1.json
-  def show
-  end
-
-  # GET /todos/new
-  def new
-    @todo = Todo.new
-
-  end
-
-  # GET /todos/1/edit
-  def edit
-  end
 
   # POST /todos
   # POST /todos.json
@@ -32,22 +19,35 @@ class TodosController < ApplicationController
     if @todo.save
       render json: @todo, status: 200
     else
-      format.json { render json: @todo.errors, status: :unprocessable_entity }
+      render json: @todo.errors, status: :unprocessable_entity
     end
   end
 
   # DELETE /todos/1
   # DELETE /todos/1.json
   def destroy
-    set_todo
     id_removed = @todo.id
     @todo.destroy
     render json: {id: id_removed}, status: 200
   end
 
   def remove_all_todos
-    Todo.destroy_all
+    @todos = Todo.where(complete: false)
+    @todos.each do |todo|
+      todo.destroy
+    end
     head 200
+  end
+
+  def mark_complete
+    @todo = Todo.find(params[:id])
+    @todo.update_attributes(complete: true)
+
+    if @todo.save
+      render json: @todo, status: 200
+    else
+      render json: @todo.errors, status: :unprocessable_entity
+    end
   end
 
   private
@@ -58,6 +58,6 @@ class TodosController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def todo_params
-      params.require(:todo).permit(:message)
+      params.require(:todo).permit(:todo, :complete)
     end
 end

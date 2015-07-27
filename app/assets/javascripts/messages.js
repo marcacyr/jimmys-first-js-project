@@ -1,66 +1,95 @@
 $(document).ready(function() {
-	$("#messages-list").on("click", ".remove-message", removeMessage);
+	$("#todos-list").on("click", ".remove-todo", removeTodo);
 
-	$("#remove-all").on("click", removeAllMessages);
+	$("#remove-all").on("click", removeAllTodos);
 
-	$('#message-submit').on('click', submitMessage);
+	$('#todo-submit').on('click', submitTodo);
 
-	$('#message-input').on('keyup', function() {
+	$('#todos-list').on('click', '.checkmark', markTodoComplete)
+
+	$('#todo-input').on('keyup', function() {
 		if (event.keyCode !== 13) { return ; }
-		submitMessage();
+		submitTodo();
 	});
 
-	function removeAllMessages() {
+	function getId(el) {
+		return el.parent().find('.id').text();
+	}
+
+	function markTodoComplete() {
+		var id = getId($(this));
+		$.ajax({
+			type: 'POST',
+			url: '/mark_complete',
+			data: {
+				id: id
+			},
+			success: updateTodosAfterCompletion,
+			error: raiseError
+		});
+	}
+
+	function removeAllTodos() {
 		$.ajax({
 			type: 'GET',
 			url: '/remove_all_todos',
-			success: updateMessagesAfterDeleteAll,
+			success: updateTodosAfterDeleteAll,
 			error: raiseError
 		});
 	}
 
-	function removeMessage() {
-		var id = $(this).parent().find('.id').text();
+	function removeTodo() {
+		var id = getId($(this));
 		$.ajax({
 			type: 'DELETE',
 			url: '/todos/' + id,
-			success: updateMessagesAfterDeletion,
+			success: updateTodosAfterDeletion,
 			error: raiseError
 		});
 	}
 
-	function submitMessage() {
-		var message = $('#message-input').val();
-		if (!message) { return; }
+	function submitTodo() {
+		var todo = $('#todo-input').val();
+		if (!todo) { return; }
 		$.ajax({
 			type: 'POST',
 			url: '/todos',
 			data: {
 				todo: {
-					message: message
+					todo: todo
 				}
 			},
-			success: updateMessagesListWithNewMessage,
+			success: updateTodosListWithNewTodo,
 			error: raiseError
 		});
 	}
 
-	function updateMessagesAfterDeleteAll() {
+	function updateTodosAfterCompletion(response) {
+		var todo = response.todo
+		var completedList = $('#completed-todos-list');
+		updateTodosAfterDeletion(response);
+		completedList.append('<div style="margin-left:30px;">' + todo +'</div>');
+	}
+
+	function updateTodosAfterDeleteAll() {
 		$('li').remove();
 	}
 
-	function updateMessagesAfterDeletion(response) {
+	function updateTodosAfterDeletion(response) {
 		var id = response.id;
 		$('.'+id+'').parent().remove();
 	}
 
-	function updateMessagesListWithNewMessage(response) {
-		var messageInput = $('#message-input');
-		var message = response.message;
+	function updateTodosListWithNewTodo(response) {
+		var todoInput = $('#todo-input');
+		var todo = response.todo;
 		var id = response.id;
-		var messageList = $("#messages-list");
-		messageList.append("<li>" + message + '<div class="id '+ id +'" style="display:none">' + id + '</div>' + "<span class='remove-message' style='font-weight: bold; color: red; cursor: pointer;'> (X) </span></li>");
-		messageInput.val("");
+		var todoList = $("#todos-list");
+		todoList.append("<li>" + todo + '<div class="id '+ id +'" style="display:none">'
+			+ id + '</div>'
+			+ "<span class='remove-todo' style='font-weight: bold; color: red; cursor: pointer;'> x </span>"
+			+ "<span class='checkmark'></span></li>");
+		todoInput.val("");
 	}
 
 	function raiseError() {

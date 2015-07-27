@@ -1,19 +1,32 @@
-<div class="message-input" style="margin: 50px 0 30px 20px;">
-  <input style="width: 300px;" id="message-input" placeholder="Please type a message here..."></input>
-  <button id="message-submit">Submit</button>
+<div class="todo-input" style="margin: 50px 0 30px 20px;">
+  <input style="width: 300px;" id="todo-input" placeholder="Please type a todo here..."></input>
+  <button id="todo-submit">Submit</button>
 <div>
 
-<div id="messages-display" style="margin: 30px 0 30px 20px;">
-  <ul id="messages-list">
+<div id="todos-display" style="margin: 30px 0 30px 20px;">
+  <h3>To Do:</h3>
+  <ul id="todos-list">
     <% @todos.each do |todo| %>
       <li>
-        <%= todo.message %>
-        <div style="display:none;" class="id <%= todo.id %>"><%= todo.id %></div>
-        <span class="remove-message" style="font-weight:bold; color:red; cursor:pointer;">
-          (X)
+        <%= todo.todo %>
+        <div style="display:none;" class="incomplete id <%= todo.id %>"><%= todo.id %></div>
+        <span class="remove-todo" style="font-weight:bold; color:red; cursor:pointer;">
+          x
         </span>
+        <span class="checkmark"></span>
       </li>
     <% end %>
   </ul>
-  <button style="margin-top:15px;" id="remove-all">Remove all messages</button>
+  <button style="margin-top:15px;" id="remove-all">Remove all todos</button>
+</div>
+
+<div id="completed-todos" style="margin: 30px 0 30px 20px;">
+  <h3>Completed:</h3>
+  <div id="completed-todos-list">
+    <% @completed_todos.each do |completed_todo| %>
+      <div style="margin-left: 30px;">
+        <%= completed_todo.todo %>
+      </div>
+    <% end %>
+  </div>
 </div>
