@@ -16,7 +16,7 @@ $(document).ready(function() {
 
 	function showOrHideRemoveAllButton() {
 		var removeAll = $('#remove-all');
-		if ($('li').length > 0) {
+		if ($('li').length > 1) {
 			removeAll.show();
 		} else {
 			removeAll.hide();
